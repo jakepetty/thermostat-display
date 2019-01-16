@@ -1,0 +1,5 @@
+.pioenvs
+.piolibdeps
+.vscode/*
+/lib/CORE/configuration.h
+platformio.ini

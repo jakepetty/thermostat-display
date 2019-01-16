@@ -1,0 +1,45 @@
+#ifndef CONFIGURATION_H_
+#define CONFIGURATION_H_
+
+#define VERSION "1.1.8"
+
+#define DEBUG_ENABLED
+#ifdef DEBUG_ENABLED
+#define SERIAL_BAUD 115200
+#endif
+
+// WIFI Settings
+#define WIFI_SSID ""
+#define WIFI_PASS ""
+
+// MQTT Settings
+#define MQTT_HOST ""                          // IP Address of your MQTT broker
+#define MQTT_PORT 1883                        // Default: 1883
+#define MQTT_USER ""                          // Username to login to your MQTT broker
+#define MQTT_PASS ""                          // Password to login to your MQTT broker
+#define MQTT_WILL_ONLINE "online"             // Default: online - LWT message sent to MQTT broker that tells Home Assistant the device is available
+#define MQTT_WILL_OFFLINE "offline"           // Default: offline - LWT message sent to MQTT broker that tells Home Assistant the device is not available
+#define MQTT_QOS 0                            // Default: 0 (https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels/#how-does-it-work)
+#define MQTT_RETAIN false                     // Default: true (https://www.hivemq.com/blog/mqtt-essentials-part-8-retained-messages/#retained-messages)
+#define MQTT_CLEAN_SESSION false              // Default: false (https://www.hivemq.com/blog/mqtt-essentials-part-7-persistent-session-queuing-messages/#how-do-you-start-or-end-a-persistent-session)
+#define MQTT_DISCOVERY_PREFIX "HomeAssistant" // Default: homeassistant - Must match the discovery prefix in your HA MQTT configuration.
+#define MQTT_STATE_ON "ON"                    // Default: ON
+#define MQTT_STATE_OFF "OFF"                  // Default: OFF
+
+// OTA Settings
+#define OTA_ENABLED
+#ifdef OTA_ENABLED
+#define OTA_PORT 8266 // Default: 8266
+#define OTA_PASS ""
+#endif
+
+// Screen Settings
+#define SCREEN_ADDR 0x3c
+#define SCREEN_AWAKE_DURATION 10000
+#define SCREEN_MSG_DURATION 10000
+#define SCREEN_FPS 60
+#define SCREEN_FLIP
+#define SCREEN_MIN_BRIGHTNESS 25
+#define SCREEN_MAX_BRIGHTNESS 255
+
+#endif // CONFIGURATION_H_
