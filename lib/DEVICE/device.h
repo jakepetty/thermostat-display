@@ -8,6 +8,9 @@
 #include <TimeLib.h>
 #include <structs.h>
 #include <ArduinoJson.h>
+#ifdef DEBUG_ENABLED
+#include <debugger.h>
+#endif
 
 class DEVICE
 {

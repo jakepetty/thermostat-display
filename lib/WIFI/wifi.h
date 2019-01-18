@@ -9,6 +9,9 @@
 #include <ESP8266WiFi.h>
 #include <configuration.h>
 #include <ESP8266mDNS.h>
+#ifdef DEBUG_ENABLED
+#include <debugger.h>
+#endif
 #ifdef OTA_ENABLED
 #include <ota.h>
 #endif

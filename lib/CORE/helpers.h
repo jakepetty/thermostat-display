@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <configuration.h>
-
+#include <debugger.h>
 // Generates a unique ID using devices MAC Address
 static String getUniqueID()
 {
@@ -19,8 +19,10 @@ static String getUniqueID()
 
 // Debugging functions
 #ifdef DEBUG_ENABLED
-#define DEBUG_PRINT(a, b) b ? Serial.println(a) : Serial.print(a)
+#define DEBUG_PRINT_S(a, b) b ? Serial.println(a) : Serial.print(a)
+#define DEBUG_PRINT(a, b) dbg->send(a, b)
 #else
+#define DEBUG_PRINT_S(a, b)
 #define DEBUG_PRINT(a, b)
 #endif
 

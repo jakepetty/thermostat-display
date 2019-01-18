@@ -6,6 +6,9 @@ void OTA::setup()
     ArduinoOTA.setHostname(MQTT_DEVICE_NAME.c_str());
     ArduinoOTA.setPassword(OTA_PASS);
     ArduinoOTA.onStart([this]() {
+#ifdef DEBUG_ENABLED
+        dbg->setIgnore(true);
+#endif
         DEBUG_PRINT(F("Beginning OTA"), true);
         screen->message(F("Updating Firmware"), 0);
     });

@@ -30,7 +30,7 @@ lib_deps =
 
 ; Upload Port Configuration
 ;upload_port = COM3
-;upload_speed = 115200 ; Max: 921600
+;upload_speed = 921600
 
 ; Serial Monitor Configuration
 ;monitor_speed = 115200

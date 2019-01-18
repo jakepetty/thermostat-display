@@ -6,6 +6,9 @@
 #include <discovery.h>
 #include <screen.h>
 #include <ArduinoOTA.h>
+#ifdef DEBUG_ENABLED
+#include <debugger.h>
+#endif
 class OTA
 {
 public:

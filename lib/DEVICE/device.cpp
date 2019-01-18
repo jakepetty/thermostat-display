@@ -18,17 +18,20 @@ void DEVICE::mqttCallback(char *topic, byte *payload, unsigned int length)
 {
     DynamicJsonBuffer jsonBuffer;
     JsonObject &data = jsonBuffer.parseObject(payload);
-
     DEBUG_PRINT(F("[OK] Received payload from: "), false);
     DEBUG_PRINT(topic, true);
 
     // Validate the JSON
     if (data.success())
     {
+        String callback;
+        data.printTo(callback);
+#ifdef DEBUG_ENABLED
+        DEBUG_PRINT(F("[INFO] "), false);
+        DEBUG_PRINT(callback, true);
+#endif
         if (strcmp(topic, MQTT_BACKLIGHT_COMMAND_TOPIC.c_str()) == 0) // MQTT Light topic
         {
-            String callback;
-            data.printTo(callback);
 
             // Turns display on or off
             if (data.containsKey("state"))
@@ -62,9 +65,6 @@ void DEVICE::mqttCallback(char *topic, byte *payload, unsigned int length)
         }
         else if (strcmp(topic, MQTT_HOME_ASSISTANT_COMMAND.c_str()) == 0) // Device topic
         {
-#ifdef DEBUG_ENABLED
-            data.prettyPrintTo(Serial);
-#endif
             // Sets indoor temperature
             if (data.containsKey("indoor_temp"))
             {
@@ -98,6 +98,24 @@ void DEVICE::mqttCallback(char *topic, byte *payload, unsigned int length)
                         screen->awaken();
                     }
                     thermostat->status = status;
+                }
+            }
+
+            // Sets Current Mode
+            if (data.containsKey("mode"))
+            {
+                uint8_t mode = MODE_OFF;
+                if (data["mode"] == F("heat"))
+                {
+                    mode = MODE_HEAT;
+                }
+                else if (data["mode"] == F("cool"))
+                {
+                    mode = MODE_COOL;
+                }
+                if (mode != thermostat->mode)
+                {
+                    thermostat->mode = mode;
                 }
             }
 
@@ -201,4 +219,7 @@ void DEVICE::run()
         mqtt->run();
     }
     screen->run();
+#ifdef DEBUG_ENABLED
+    dbg->run();
+#endif
 }

@@ -30,6 +30,7 @@ Replace `11cb27a45c71` with your display's MAC address (case sensitive)
       payload_template: >-
         {
             "time": {{ now().strftime('%s') }},
+            "mode" : "{{state_attr("climate.thermostat", "operation_mode")}}",
             "status": "{{ states('climate.thermostat') }}",
             "target_temp": {{ state_attr('climate.thermostat','temperature') }},
             "indoor_temp": {{ state_attr('climate.thermostat', 'current_temperature') }},

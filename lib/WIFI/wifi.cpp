@@ -15,10 +15,16 @@ bool WIFI::run()
     {
         switch (status)
         {
+        case WL_NO_SSID_AVAIL:
+            DEBUG_PRINT(F("[ERROR] Unable to reach SSID"), true);
+            break;
         case WL_CONNECT_FAILED:
             DEBUG_PRINT(F("[ERROR] WIFI Connection Failed"), true);
             break;
         case WL_CONNECTED:
+#ifdef DEBUG_ENABLED
+            dbg->setup();
+#endif
             DEBUG_PRINT(F("[OK] WIFI Connected: "), false);
             DEBUG_PRINT(WiFi.localIP(), true);
 #ifdef OTA_ENABLED
@@ -26,6 +32,7 @@ bool WIFI::run()
 #endif
             if (MDNS.begin(MQTT_DEVICE_NAME.c_str()))
             {
+                MDNS.addService("_rdebug", "_udp", 8461);
                 DEBUG_PRINT(F("[OK] MDNS responder started"), true);
             }
             else
@@ -34,12 +41,10 @@ bool WIFI::run()
             }
             break;
         case WL_DISCONNECTED:
-            // Occurs when the router is unplugged
-            DEBUG_PRINT(F("[ERROR] WIFI Disconnected"), true);
+            DEBUG_PRINT(F("[WARN] WIFI Disconnected"), true);
             break;
         case WL_CONNECTION_LOST:
-            // Occurs when device is out of range of the router
-            DEBUG_PRINT(F("[ERROR] WIFI signal lost"), true);
+            DEBUG_PRINT(F("[WARN] WIFI signal lost"), true);
             WiFi.reconnect();
             break;
         }

@@ -5,10 +5,15 @@
 #define STATUS_FLASHING 0x02
 
 // STATES
-#define STATE_OFF 0
-#define STATE_IDLE 1
-#define STATE_HEAT 2
-#define STATE_COOL 3
+#define STATE_OFF 0x00
+#define STATE_IDLE 0x01
+#define STATE_HEAT 0x02
+#define STATE_COOL 0x03
+
+// MODES
+#define MODE_OFF 0x00
+#define MODE_HEAT 0x01
+#define MODE_COOL 0x02
 
 // Weather Definitions
 #define WEATHER_CLEAR_DAY 0x42

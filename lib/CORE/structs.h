@@ -6,6 +6,7 @@ struct THERMOSTAT
 {
     uint8_t target;
     uint8_t status = STATE_IDLE;
+    uint8_t mode = MODE_OFF;
     uint8_t indoor_temp;
     int8_t outdoor_temp;
     uint8_t condition_icon = WEATHER_CLEAR_DAY;

@@ -8,9 +8,48 @@
 #include "icons.h"
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #pragma GCC diagnostic ignored "-Wunused-function"
-
+static unsigned long last_tick;
+static bool toggle;
+static int overlaysCount = 1;
+static int frameCount = 2;
 static void overlay(OLEDDisplay *display, OLEDDisplayUiState *state)
 {
+    unsigned long ms = millis();
+    if (ms - 1000 > last_tick)
+    {
+        toggle = !toggle;
+        last_tick = ms;
+    }
+    if (toggle)
+    {
+        // Thermostat Status
+        switch (thermostat->status)
+        {
+        case STATE_HEAT:
+            display->drawXbm(display->width() - HEAT_ICON_WIDTH - HEAT_ICON_OFFSET, display->height() - HEAT_ICON_HEIGHT - HEAT_ICON_OFFSET, HEAT_ICON_WIDTH, HEAT_ICON_HEIGHT, ICON_HEAT);
+            break;
+        case STATE_COOL:
+            display->drawXbm(display->width() - COOL_ICON_WIDTH - COOL_ICON_OFFSET, display->height() - COOL_ICON_HEIGHT - COOL_ICON_OFFSET, COOL_ICON_WIDTH, COOL_ICON_HEIGHT, ICON_COOL);
+            break;
+        case STATE_IDLE:
+            display->drawXbm(display->width() - IDLE_ICON_WIDTH - IDLE_ICON_OFFSET, display->height() - IDLE_ICON_HEIGHT - IDLE_ICON_OFFSET, IDLE_ICON_WIDTH, IDLE_ICON_HEIGHT, ICON_IDLE);
+            break;
+        }
+    }
+    else
+    {
+        // Thermostat Mode
+        switch (thermostat->mode)
+        {
+        case MODE_HEAT:
+            display->drawXbm(display->width() - HEAT_ICON_WIDTH - HEAT_ICON_OFFSET, display->height() - HEAT_ICON_HEIGHT - HEAT_ICON_OFFSET, HEAT_ICON_WIDTH, HEAT_ICON_HEIGHT, ICON_HEAT);
+            break;
+        case MODE_COOL:
+            display->drawXbm(display->width() - COOL_ICON_WIDTH - COOL_ICON_OFFSET, display->height() - COOL_ICON_HEIGHT - COOL_ICON_OFFSET, COOL_ICON_WIDTH, COOL_ICON_HEIGHT, ICON_COOL);
+            break;
+        }
+    }
+
     // Setup backdrop
     display->drawXbm(0, 0, display->width(), display->height(), background);
 
@@ -55,22 +94,8 @@ static void overlay(OLEDDisplay *display, OLEDDisplayUiState *state)
     // Target Temperature
     display->setFont(Open_Sans_Regular_12);
     display->drawString(TARGET_TEMP_OFFSET_X, display->height() - TARGET_TEMP_OFFSET_Y, String(thermostat->target));
-
-    // Thermostat Mode
-    switch (thermostat->status)
-    {
-    case STATE_HEAT:
-        display->drawXbm(display->width() - HEAT_ICON_WIDTH - HEAT_ICON_OFFSET, display->height() - HEAT_ICON_HEIGHT - HEAT_ICON_OFFSET, HEAT_ICON_WIDTH, HEAT_ICON_HEIGHT, ICON_HEAT);
-        break;
-    case STATE_COOL:
-        display->drawXbm(display->width() - COOL_ICON_WIDTH - COOL_ICON_OFFSET, display->height() - COOL_ICON_HEIGHT - COOL_ICON_OFFSET, COOL_ICON_WIDTH, COOL_ICON_HEIGHT, ICON_COOL);
-        break;
-    case STATE_IDLE:
-        display->drawXbm(display->width() - IDLE_ICON_WIDTH - IDLE_ICON_OFFSET, display->height() - IDLE_ICON_HEIGHT - IDLE_ICON_OFFSET, IDLE_ICON_WIDTH, IDLE_ICON_HEIGHT, ICON_IDLE);
-        break;
-    }
 }
-static void indoor(OLEDDisplay *display, OLEDDisplayUiState *state, int16_t x, int16_t y)
+static void indoor_temperature(OLEDDisplay *display, OLEDDisplayUiState *state, int16_t x, int16_t y)
 {
     // Indoor Temperature
     display->setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
@@ -86,8 +111,6 @@ static void digital_clock(OLEDDisplay *display, OLEDDisplayUiState *state, int16
     uint8_t h = hourFormat12();
     display->drawString((display->getWidth() / 2) + x, (display->getHeight() / 2) + y, String(h) + ":" + String(m < 10 ? "0" + String(m) : m));
 }
-static int overlaysCount = 1;
-static int frameCount = 2;
-static FrameCallback frames[] = {digital_clock, indoor};
+static FrameCallback frames[] = {digital_clock, indoor_temperature};
 static OverlayCallback overlays[] = {overlay};
 #endif // INTERFACE_H_
