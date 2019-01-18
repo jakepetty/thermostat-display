@@ -42,6 +42,24 @@ void MQTT::setupDiscovery()
         DEBUG_PRINT(F("[ERROR] Unable to publish to: "), false);
     }
     DEBUG_PRINT(MQTT_BACKLIGHT_CONFIG_TOPIC, true);
+    if (!MQTT_RETAIN)
+    {
+        DynamicJsonBuffer buf;
+        JsonObject &obj = buf.createObject();
+        obj["state"] = MQTT_STATE_ON;
+        obj["brightness"] = SCREEN_MIN_BRIGHTNESS;
+        String pl;
+        obj.printTo(pl);
+        if (client.publish(MQTT_BACKLIGHT_STATE_TOPIC.c_str(), pl.c_str()))
+        {
+            DEBUG_PRINT(F("[OK] Published to: "), false);
+        }
+        else
+        {
+            DEBUG_PRINT(F("[ERROR] Unable to publish to: "), false);
+        }
+        DEBUG_PRINT(MQTT_BACKLIGHT_STATE_TOPIC, true);
+    }
 
     if (client.subscribe(MQTT_BACKLIGHT_COMMAND_TOPIC.c_str(), MQTT_QOS)) // Subscribe to Command Topic
     {
