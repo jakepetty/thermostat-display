@@ -1,4 +1,4 @@
-![](docs/display.png)
+![](docs/promo.jpg)
 
 # Parts List
 - ESP-01 or ESP-01S
@@ -49,6 +49,7 @@ light.11cb27a45c71:
 Replace `11cb27a45c71` with your display's MAC address (case sensitive)
 
 ## Automation Script
+In order to get information to display on the device it needs to be told what to display
 ```yaml
 - id: '1536963450591'
   alias: Update Thermostat
