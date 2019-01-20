@@ -1,3 +1,35 @@
+![](docs/display.png)
+
+# Parts List
+- ESP-01 or ESP-01S
+- 1.3" i2c OLED display
+- Electrical Tape or some other non-conductive median
+- Soldering Iron
+- Solder
+- 22 Gauge Solid Core Wire
+- Pliers
+- Solder-Sucker/Desoldering braid
+
+# Parts Assembly
+
+## Header Removal
+
+I recommend a temperature of 200-250°C for this part to prevent damage
+
+1. Remove the black plastic part of the header pins on both the ESP-01 and the OLED
+2. Remove the header pins on the ESP-01 and the OLED display by reflowing the solder on each pin while gently pulling the pin out with pliers
+3. Clean up the holes using Solder-Sucker/Desoldering braid
+
+## Assembling The Parts
+![](docs/Wiring.jpg)
+I recommend a temperature of 350-375°C for this part try not to linger too long
+
+1. Place electrical tape on the back of the OLED covering up the exposed components to prevent shorting
+2. Solder a wire from the ESP-01's GND pin to the GND pin on the OLED and solder a wire that will go from GND on the OLED to GND on your power source
+3. Solder a wire from the ESP-01's VCC pin to the VCC pin on the OLED and solder a wire that will go from VCC on the OLED to VCC on your power source
+4. Solder a wire from the ESP-01's GPIO0 pin to the SDA pin on the OLED
+5. Solder a wire from the ESP-01's GPIO2 pin to the SCL pin on the OLED
+
 # PlatformIO Setup
 If you upgraded your ESP-01's flash chip to 32MBits you will need a custom board file for PlatformIO.
 
