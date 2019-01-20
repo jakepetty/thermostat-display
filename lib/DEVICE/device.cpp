@@ -148,9 +148,17 @@ void DEVICE::mqttCallback(char *topic, byte *payload, unsigned int length)
                 {
                     condition_icon = WEATHER_SNOW;
                 }
-                else if (ico == F("sleet") || ico == F("hail"))
+                else if (ico == F("sleet"))
                 {
                     condition_icon = WEATHER_SLEET;
+                }
+                else if (ico == F("hail"))
+                {
+                    condition_icon = WEATHER_HAIL;
+                }
+                else if (ico == F("tornado"))
+                {
+                    condition_icon = WEATHER_TORNADO;
                 }
                 else if (ico == F("rain"))
                 {
