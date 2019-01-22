@@ -42,6 +42,7 @@ void MQTT::setupDiscovery()
         DEBUG_PRINT(F("[ERROR] Unable to publish to: "), false);
     }
     DEBUG_PRINT(MQTT_BACKLIGHT_CONFIG_TOPIC, true);
+    // If retain is off then HA has no way of knowing the status of the backlight so we tell it
     if (!MQTT_RETAIN)
     {
         DynamicJsonBuffer buf;
